@@ -40,7 +40,7 @@
 | id | int PK | |
 | firm | FK → Firm | |
 | title | text | e.g. "Entry-level CNC operator" |
-| type | choice | internship / entry_level_job |
+| type | choice | internship / entry_level_job / visit|
 | description | text | |
 | is_active | bool | |
 | data_source | choice | real / sample |
