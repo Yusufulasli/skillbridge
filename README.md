@@ -1,4 +1,4 @@
-# SkillBridge Kayseri
+# SkillBridge
 
 **Connecting vocational high schools with local industry**
 
@@ -10,7 +10,7 @@ Vocational high school students in Kayseri do not have clear, up-to-date informa
 
 ## Our solution
 
-SkillBridge Kayseri is a simple website:
+SkillBridge is a simple website:
 
 - **Firms** list the technical skills they need for entry-level jobs and internships.
 - **Students** create a skill profile and see which opportunities match them best and which skills they are still missing.
@@ -45,7 +45,7 @@ Example: a firm wants 4 skills and the student has 2 → score = 0.5, and the st
 ## Project structure
 
 ```
-skillbridge-kayseri/
+skillbridge/
 ├── README.md
 ├── docs/
 │   └── week1/
