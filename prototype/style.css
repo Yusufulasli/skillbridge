@@ -1,0 +1,258 @@
+/* =========================================================
+   SkillBridge Kayseri - ortak stil dosyası
+   Mobil öncelikli: önce telefon stilleri yazılır,
+   geniş ekran farkları en alttaki media query'de eklenir.
+   ========================================================= */
+
+/* ---- 1. Renk ve ölçü değişkenleri ---- */
+:root {
+  --renk-metin: #333333;      /* koyu gri ana metin */
+  --renk-baslik: #1a1a1a;     /* başlıklar biraz daha koyu */
+  --renk-gri: #5f6368;        /* ikincil metin (küçük not) */
+  --renk-vurgu: #1f3a68;      /* tek vurgu rengi: lacivert */
+  --renk-vurgu-koyu: #142847; /* butonun üzerine gelince */
+  --renk-sari: #ffd43b;       /* "Sample data" etiketi */
+  --renk-cizgi: #d0d5dd;      /* ince ayırıcı çizgiler */
+  --renk-kenar: #767676;      /* form elemanı kenarlıkları */
+  --renk-acik: #eef2f8;       /* seçili kutu / hover zemini */
+  --yuvarlak: 8px;            /* köşe yuvarlaklığı */
+  --dokunma: 48px;            /* parmakla basılacak en küçük yükseklik */
+}
+
+/* ---- 2. Temel ayarlar ---- */
+/* Kenarlık ve iç boşluk, genişliğin içine dahil edilsin */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* Sistem fontları: telefonda ve bilgisayarda yerel font kullanılır */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--renk-metin);
+  background: #ffffff;
+}
+
+h1,
+h2 {
+  color: var(--renk-baslik);
+  line-height: 1.25;
+}
+
+/* Klavyeyle gezinirken odaklanılan öğe net görünsün */
+:focus-visible {
+  outline: 3px solid var(--renk-vurgu);
+  outline-offset: 3px;
+}
+
+/* ---- 3. Başlık çubuğu (header) ---- */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo solda, etiket sağda */
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--renk-cizgi);
+}
+
+.site-logo {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--renk-vurgu);
+  text-decoration: none;
+}
+
+/* Sağ üstteki sarı "Sample data" etiketi */
+.etiket-ornek {
+  padding: 4px 10px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--renk-baslik);
+  background: var(--renk-sari);
+  border-radius: 999px;
+  white-space: nowrap; /* dar ekranda iki satıra bölünmesin */
+}
+
+/* ---- 4. Sayfa içeriği ---- */
+.icerik {
+  max-width: 960px;
+  margin: 0 auto; /* geniş ekranda ortala */
+  padding: 32px 16px 48px;
+}
+
+/* Form sayfası için daha dar içerik */
+.icerik-dar {
+  max-width: 720px;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: 1.75rem;
+}
+
+.alt-baslik {
+  margin: 0 0 32px;
+  font-size: 1.125rem;
+}
+
+/* ---- 5. Butonlar ---- */
+/* Telefonda butonlar alt alta (column) */
+.buton-grubu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Hem <a> hem <button> için ortak buton görünümü */
+.buton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 12px 24px;
+  font: inherit;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--renk-vurgu);
+  border: 2px solid var(--renk-vurgu);
+  border-radius: var(--yuvarlak);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.buton:hover {
+  background: var(--renk-vurgu-koyu);
+  border-color: var(--renk-vurgu-koyu);
+}
+
+/* İkincil buton: beyaz zemin, lacivert kenar */
+.buton-ikincil {
+  color: var(--renk-vurgu);
+  background: #ffffff;
+}
+
+.buton-ikincil:hover {
+  color: var(--renk-vurgu);
+  background: var(--renk-acik);
+  border-color: var(--renk-vurgu);
+}
+
+/* Formdaki gönder butonu telefonda tam genişlik */
+.buton-gonder {
+  width: 100%;
+}
+
+/* ---- 6. Form elemanları ---- */
+.form-alani {
+  margin-bottom: 24px;
+}
+
+/* Açılır listenin etiketi */
+.form-etiket {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+select {
+  width: 100%;
+  min-height: var(--dokunma);
+  padding: 8px 12px;
+  font: inherit;
+  color: var(--renk-metin);
+  background: #ffffff;
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--yuvarlak);
+}
+
+/* fieldset'in varsayılan çerçevesini kaldır */
+fieldset {
+  min-width: 0;
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+
+/* "Sahip olduğun beceriler" başlığı */
+legend {
+  margin-bottom: 12px;
+  padding: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--renk-baslik);
+}
+
+/* Onay kutuları: telefonda tek sütun */
+.beceri-listesi {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+/* Her onay kutusu + yazısı, tıklanabilir bir kutu */
+.secenek {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--dokunma);
+  padding: 8px 12px;
+  border: 1px solid var(--renk-cizgi);
+  border-radius: var(--yuvarlak);
+  cursor: pointer;
+}
+
+.secenek input {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--renk-vurgu); /* işaret rengi lacivert */
+}
+
+/* İşaretli kutuyu hafifçe vurgula */
+.secenek:has(input:checked) {
+  background: var(--renk-acik);
+  border-color: var(--renk-vurgu);
+}
+
+/* Butonun altındaki küçük gri not */
+.not {
+  margin: 12px 0 0;
+  font-size: 0.875rem;
+  color: var(--renk-gri);
+}
+
+/* ---- 7. Geniş ekran (tablet ve masaüstü) ---- */
+@media (min-width: 768px) {
+  .icerik {
+    padding: 48px 24px 64px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  /* Butonlar yan yana, eşit genişlikte */
+  .buton-grubu {
+    flex-direction: row;
+  }
+
+  .buton-grubu .buton {
+    flex: 1;
+  }
+
+  /* Onay kutuları iki sütun */
+  .beceri-listesi {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Gönder butonu artık tam genişlik değil */
+  .buton-gonder {
+    width: auto;
+  }
+}

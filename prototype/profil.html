@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Becerilerini seç - SkillBridge Kayseri</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ortak başlık çubuğu: index.html ile birebir aynı -->
+  <header class="site-header">
+    <a href="index.html" class="site-logo">SkillBridge Kayseri</a>
+    <span class="etiket-ornek" lang="en">Sample data</span>
+  </header>
+
+  <main class="icerik icerik-dar">
+    <h1>Becerilerini seç</h1>
+
+    <!-- Şimdilik hiçbir yere gitmiyor; Django'da action değişecek -->
+    <form action="#" method="get">
+
+      <!-- Açılır liste: label'ın for'u ile select'in id'si aynı -->
+      <div class="form-alani">
+        <label for="alan" class="form-etiket">Alanın</label>
+        <select id="alan" name="alan">
+          <option value="talasli-imalat">Talaşlı imalat</option>
+          <option value="kaynak">Kaynak</option>
+          <option value="endustriyel-otomasyon">Endüstriyel otomasyon</option>
+          <option value="diger">Diğer</option>
+        </select>
+      </div>
+
+      <!-- Onay kutuları bir grup: fieldset + legend ile başlık verilir -->
+      <fieldset>
+        <legend>Sahip olduğun beceriler</legend>
+
+        <!-- Telefonda tek sütun, masaüstünde iki sütun -->
+        <div class="beceri-listesi">
+          <!-- Her kutu label'ın içinde: yazıya basınca da işaretlenir -->
+          <label class="secenek" for="beceri-teknik-resim">
+            <input type="checkbox" id="beceri-teknik-resim" name="beceri" value="teknik-resim">
+            Teknik resim okuma
+          </label>
+          <label class="secenek" for="beceri-olcum">
+            <input type="checkbox" id="beceri-olcum" name="beceri" value="olcum">
+            Kumpas / mikrometre ile ölçüm
+          </label>
+          <label class="secenek" for="beceri-cnc">
+            <input type="checkbox" id="beceri-cnc" name="beceri" value="cnc-ayar">
+            CNC tezgâh ayarı
+          </label>
+          <label class="secenek" for="beceri-gkod">
+            <input type="checkbox" id="beceri-gkod" name="beceri" value="g-kod">
+            G-kod okuma
+          </label>
+          <label class="secenek" for="beceri-tig">
+            <input type="checkbox" id="beceri-tig" name="beceri" value="tig-kaynagi">
+            TIG kaynağı
+          </label>
+          <label class="secenek" for="beceri-is-guvenligi">
+            <input type="checkbox" id="beceri-is-guvenligi" name="beceri" value="is-guvenligi">
+            İş güvenliği sertifikası
+          </label>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="buton buton-gonder">Eşleşmeleri göster</button>
+
+      <!-- Kişisel veri notu -->
+      <p class="not">İsim, e-posta veya numara istemiyoruz. Kişisel veri tutmuyoruz.</p>
+    </form>
+  </main>
+
+</body>
+</html>
