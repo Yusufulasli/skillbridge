@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Sana uygun ilanlar - SkillBridge Kayseri{% endblock %}
+{% block icerik_sinifi %}icerik icerik-dar{% endblock %}
+
+{% block content %}
+  <h1>Sana uygun ilanlar</h1>
+
+  {% if sonuclar %}
+    {# <ol>: kartlar skora göre sıralı geliyor, sıra anlamlı #}
+    <ol class="kart-listesi">
+      {% for sonuc in sonuclar %}
+        <li>
+          <article class="kart">
+
+            {% if sonuc.listing.is_sample %}
+              <span class="etiket-ornek etiket-kucuk" lang="en">Sample data</span>
+            {% endif %}
+
+            {# Üst satır: solda firma + ilan türü, sağda skor #}
+            <div class="kart-ust">
+              <h2 class="kart-baslik">
+                {{ sonuc.listing.firm.name }}
+                <span class="kart-tur">-
+                  {% if sonuc.listing.type == "internship" %}Staj{% elif sonuc.listing.type == "entry_level_job" %}İş{% elif sonuc.listing.type == "visit" %}Firma ziyareti{% endif %}
+                </span>
+              </h2>
+              <p class="kart-skor">
+                Skor {{ sonuc.score|floatformat:2 }}
+                ({{ sonuc.matched|length }}/{{ sonuc.listing.skills.all|length }})
+              </p>
+            </div>
+
+            {# Çubuk 0-100 arası tam sayı alır: 0.75 -> 75. Skor yazıyla zaten var, #}
+            {# bu yüzden ekran okuyucu çubuğu ikinci kez okumasın (aria-hidden). #}
+            <progress class="skor-cubugu" max="100" value="{% widthratio sonuc.score 1 100 %}" aria-hidden="true"></progress>
+
+            {% if sonuc.matched %}
+              <ul class="beceri-durum">
+                {% for beceri in sonuc.matched %}
+                  <li class="beceri-var"><span class="isaret" aria-hidden="true">✓</span><span class="gorunmez">Var: </span>{{ beceri.name_tr }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if sonuc.missing %}
+              <ul class="beceri-durum">
+                {% for beceri in sonuc.missing %}
+                  <li class="beceri-eksik"><span class="isaret" aria-hidden="true">✗</span><span class="gorunmez">Eksik: </span>{{ beceri.name_tr }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+          </article>
+        </li>
+      {% endfor %}
+    </ol>
+
+    <p class="not">
+      Skor = sahip olduğun beceri sayısı / ilanın istediği beceri sayısı.
+      Kırmızılar eksik becerilerin.
+    </p>
+
+  {% else %}
+    {# Hiç sonuç yoksa: ne olduğunu söyle ve bir sonraki adımı göster #}
+    <div class="bos-durum">
+      <p>Şu an sana gösterebileceğimiz bir ilan yok.</p>
+      <p>En az bir beceri seçtiğinden emin ol ve tekrar dene. Yeni ilanlar eklendikçe sonuçlar değişecek.</p>
+      <a href="{% url 'profil' %}" class="buton">Becerilerine geri dön</a>
+    </div>
+  {% endif %}
+{% endblock %}

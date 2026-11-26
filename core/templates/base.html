@@ -1,0 +1,25 @@
+{% load static %}<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  {# Telefonda sayfanın gerçek ekran genişliğinde açılmasını sağlar #}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SkillBridge Kayseri{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+
+  {# Ortak başlık çubuğu: tüm sayfalar bunu base.html'den alır #}
+  <header class="site-header">
+    <a href="{% url 'index' %}" class="site-logo">SkillBridge Kayseri</a>
+    {# Zorunlu etiket: sitede şimdilik örnek veri var #}
+    <span class="etiket-ornek" lang="en">Sample data</span>
+  </header>
+
+  {# Varsayılan sınıf "icerik"; alt sayfa isterse bu bloğu değiştirir #}
+  <main class="{% block icerik_sinifi %}icerik{% endblock %}">
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>

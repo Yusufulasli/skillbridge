@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Meslek lisesi ile sanayiyi buluşturan beceri köprüsü</h1>
+  <p class="alt-baslik">Firmalar hangi becerileri istiyor, sen hangilerine sahipsin?</p>
+
+  {# Üç giriş butonu: telefonda alt alta, masaüstünde yan yana #}
+  <nav class="buton-grubu" aria-label="Kullanıcı türü seçimi">
+    <a href="{% url 'profil' %}" class="buton">Öğrenciyim</a>
+    {# Öğretmen ve firma sayfaları henüz yok; URL'leri eklenince {% url %} olacak #}
+    <a href="#" class="buton buton-ikincil">Öğretmenim</a>
+    <a href="#" class="buton buton-ikincil">Firmayım</a>
+  </nav>
+{% endblock %}
