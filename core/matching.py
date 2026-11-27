@@ -27,6 +27,14 @@ class MatchResult:
     matched: list
     missing: list
 
+    @property
+    def matched_count(self):
+        return len(self.matched)
+
+    @property
+    def required_count(self):
+        return len(self.matched) + len(self.missing)
+
 
 def visible_listings():
     """Active listings. Real listings need the firm's publish consent; sample listings are always allowed
@@ -39,9 +47,12 @@ def visible_listings():
     )
 
 
-def match_profile(profile):
-    """Rank visible listings for a StudentProfile: highest score, then more matched skills, then newest."""
-    student_ids = set(profile.skills.values_list("id", flat=True))
+def match_skills(skill_ids):
+    """Rank visible listings for a set of skill ids. Nothing is read from or written to a student profile.
+
+    Order: highest score, then more matched skills, then newest listing.
+    """
+    student_ids = set(skill_ids)
     results = []
     for listing in visible_listings():
         skills = {s.id: s for s in listing.skills.all()}
@@ -59,6 +70,11 @@ def match_profile(profile):
         )
     results.sort(key=lambda r: (-r.score, -len(r.matched), -r.listing.id))
     return results
+
+
+def match_profile(profile):
+    """Same ranking for a saved StudentProfile (uses match_skills, so both paths always agree)."""
+    return match_skills(profile.skills.values_list("id", flat=True))
 
 
 def most_wanted_skills():
