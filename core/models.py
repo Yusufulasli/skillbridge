@@ -81,9 +81,9 @@ class Firm(SourceModel):
 
 class Listing(SourceModel):
     class Type(models.TextChoices):
-        INTERNSHIP = "internship", "Internship"
-        ENTRY_LEVEL_JOB = "entry_level_job", "Entry-level job"
-        VISIT = "visit", "Firm visit"
+        INTERNSHIP = "internship", "Staj"
+        ENTRY_LEVEL_JOB = "entry_level_job", "İş"
+        VISIT = "visit", "Firma ziyareti"
 
     firm = models.ForeignKey(Firm, on_delete=models.CASCADE, related_name="listings")
     title = models.CharField(max_length=160)
