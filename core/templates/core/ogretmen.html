@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Öğretmen paneli - SkillBridge Kayseri{% endblock %}
+{% block icerik_sinifi %}icerik icerik-dar{% endblock %}
+
+{% block content %}
+  <h1>En çok aranan beceriler</h1>
+
+  {# Gerçek firma verisi yoksa panel örnek veriyle dolar; bu durumda etiket zorunlu #}
+  {% if panel.is_sample %}
+    <p>
+      <span class="etiket-ornek etiket-kucuk" lang="en">Sample data</span>
+      Gerçek firma verisi henüz yok, örnek veri gösteriliyor.
+    </p>
+  {% endif %}
+
+  {% if panel.rows %}
+    <p class="alt-baslik">
+      {{ panel.firm_count }} firmanın ilanlarından.
+      {% if panel.school %}Karşılaştırılan okul: {{ panel.school.name }}.{% endif %}
+      Okulda öğretilmeyen beceri sayısı: {{ panel.gap_count }}.
+    </p>
+
+    {# <ol>: beceriler isteyen firma sayısına göre sıralı geliyor #}
+    <ol class="kart-listesi">
+      {% for satir in panel.rows %}
+        <li>
+          <article class="kart">
+            <div class="kart-ust">
+              <h2 class="kart-baslik">{{ satir.skill.name_tr }}</h2>
+              <p class="kart-skor">{{ satir.firm_count }} firma istiyor</p>
+            </div>
+
+            <ul class="beceri-durum">
+              {% if satir.taught is True %}
+                <li class="beceri-var"><span class="isaret" aria-hidden="true">✓</span><span class="gorunmez">Okulda: </span>Okulda öğretiliyor</li>
+              {% elif satir.taught is False %}
+                <li class="beceri-eksik"><span class="isaret" aria-hidden="true">✗</span><span class="gorunmez">Okulda: </span>Okulda öğretilmiyor</li>
+              {% else %}
+                <li><span class="isaret" aria-hidden="true">?</span><span class="gorunmez">Okulda: </span>Henüz incelenmedi</li>
+              {% endif %}
+            </ul>
+          </article>
+        </li>
+      {% endfor %}
+    </ol>
+
+    <p class="not">
+      Sıralama, beceriyi isteyen farklı firma sayısına göredir (bir firmanın birden çok ilanı tek sayılır).
+      Kırmızı: firmaların istediği ama okulda öğretilmeyen beceri.
+    </p>
+
+  {% else %}
+    <div class="bos-durum">
+      <p>Henüz gösterilecek firma verisi yok.</p>
+      <a href="{% url 'index' %}" class="buton">Ana sayfa</a>
+    </div>
+  {% endif %}
+{% endblock %}

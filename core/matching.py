@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from django.db.models import Count, Q
 
-from .models import DataSource, Listing, SchoolSkill, Skill
+from .models import DataSource, Firm, Listing, School, SchoolSkill, Skill
 
 
 def match_score(profile_skill_ids, listing_skill_ids):
@@ -77,13 +77,16 @@ def match_profile(profile):
     return match_skills(profile.skills.values_list("id", flat=True))
 
 
-def most_wanted_skills():
-    """Skills ranked by the number of DISTINCT real firms (with consent) whose active listings require them."""
+def most_wanted_skills(data_source=DataSource.REAL):
+    """Skills ranked by the number of DISTINCT firms (with consent) whose active listings require them.
+
+    By default only REAL data is counted. The teacher page asks for SAMPLE data only when no real data exists yet.
+    """
     return (
         Skill.objects.filter(
             listings__is_active=True,
-            listings__data_source=DataSource.REAL,
-            listings__firm__data_source=DataSource.REAL,
+            listings__data_source=data_source,
+            listings__firm__data_source=data_source,
             listings__firm__publish_consent=True,
         )
         .annotate(firm_count=Count("listings__firm", distinct=True))
@@ -97,3 +100,55 @@ def curriculum_gap(school):
         school=school, taught=True, data_source=DataSource.REAL
     ).values_list("skill_id", flat=True)
     return most_wanted_skills().exclude(id__in=taught_ids)
+
+
+@dataclass
+class DemandRow:
+    """One line of the teacher page: a skill, how many firms want it, and whether the school teaches it.
+
+    taught is True / False, or None when the school has not been reviewed for this skill yet.
+    """
+
+    skill: Skill
+    firm_count: int
+    taught: object
+
+
+@dataclass
+class TeacherDashboard:
+    rows: list
+    firm_count: int
+    school: object
+    is_sample: bool
+
+    @property
+    def gap_count(self):
+        return sum(1 for row in self.rows if row.taught is False)
+
+
+def _dashboard_for(data_source):
+    skills = list(most_wanted_skills(data_source))
+    school = School.objects.filter(data_source=data_source).order_by("id").first()
+    taught = {}
+    if school:
+        taught = dict(
+            SchoolSkill.objects.filter(school=school, data_source=data_source).values_list("skill_id", "taught")
+        )
+    firm_count = (
+        Firm.objects.filter(
+            data_source=data_source,
+            publish_consent=True,
+            listings__is_active=True,
+            listings__data_source=data_source,
+        )
+        .distinct()
+        .count()
+    )
+    rows = [DemandRow(skill=s, firm_count=s.firm_count, taught=taught.get(s.id)) for s in skills]
+    return TeacherDashboard(rows=rows, firm_count=firm_count, school=school, is_sample=data_source == DataSource.SAMPLE)
+
+
+def teacher_dashboard():
+    """Real data if there is any; otherwise labelled sample data so the page is never empty during the pilot."""
+    real = _dashboard_for(DataSource.REAL)
+    return real if real.rows else _dashboard_for(DataSource.SAMPLE)

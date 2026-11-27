@@ -3,7 +3,7 @@ import re
 from django.shortcuts import render
 from django.views.decorators.http import require_safe
 
-from .matching import match_skills
+from .matching import match_skills, teacher_dashboard
 from .models import Skill, StudentProfile, UsageLog
 
 # Valid values for the "alan" (field of study) parameter, taken from the model so they cannot drift apart.
@@ -53,3 +53,10 @@ def eslesmeler(request):
         "secilen_beceriler": Skill.objects.filter(id__in=skill_ids),
     }
     return render(request, _template("eslesmeler.html"), context)
+
+
+@require_safe
+def ogretmen(request):
+    # Anonymous usage log: only the event name and the time.
+    UsageLog.objects.create(event=UsageLog.Event.VIEW_DASHBOARD)
+    return render(request, _template("ogretmen.html"), {"panel": teacher_dashboard()})
